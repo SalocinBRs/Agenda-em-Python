@@ -65,8 +65,8 @@ while True:
                 endereco = input("Qual o endereço: ")
                 incluir_editar_contatos(contato, telefone, email, endereco)
                 break
-            except:
-                print("dado incorreto")
+            except ValueError:
+                print("Apenas numeros são aceitos no telefone")
 
     if resposta in [1]:
         buscar_contato()
@@ -77,7 +77,7 @@ while True:
     if resposta in [3]:
         while True:
             try:
-                contato = input('Qual contato deverá ser deletado')
+                contato = input('Qual contato deverá ser deletado: ')
                 deletar_contato(contato)
                 break
             except:
