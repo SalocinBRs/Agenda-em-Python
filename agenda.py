@@ -1,27 +1,21 @@
 AGENDA = {}
 
-AGENDA["Nicolas"] = {
-    "telefone": "999252508",
-    "email": "nv15983@gmail.com",
-    "endereço": "rua principal 1"
-}
-AGENDA["Maria"] = {
-    "telefone": "999248613",
-    "email": "mv7983@gmail.com",
-    "endereço": "rua principal 2"
-}
+
 def deletar_contato(contato):
     del AGENDA[contato]
 
 
 def mostrar_contatos(agenda):
-    print("-" * 30)
-    for contatos in agenda:
-        print(f"Nome: {contatos}")
-        print("Telefone:", agenda[contatos]["telefone"])
-        print("Email:", agenda[contatos]["email"])
-        print("endereço:", agenda[contatos]["endereço"])
+    if len(AGENDA) > 0:
         print("-" * 30)
+        for contatos in agenda:
+            print(f"Nome: {contatos}")
+            print("Telefone:", agenda[contatos]["telefone"])
+            print("Email:", agenda[contatos]["email"])
+            print("endereço:", agenda[contatos]["endereço"])
+            print("-" * 30)
+    else:
+        print("A lista está vazia")
 
 
 def incluir_editar_contatos(contato, telefone, email, endereco):
@@ -48,12 +42,37 @@ def buscar_contato():
         except KeyError:
             print("Esse contato não existe")
 
+
+def exportar_contatos():
+    try:
+        with open('contatos.csv', 'w') as arquivos:
+            for contato in AGENDA:
+                telefone = AGENDA[contato]['telefone']
+                email = AGENDA[contato]['email']
+                endereco = AGENDA[contato]['endereço']
+                arquivos.write(f"{contato},{telefone},{email},{endereco}\n")
+    except Exception as error:
+        print("nao foi")
+        print(error)
+
+with open('contatos.csv') as teste:
+    linhas = teste.readlines()
+    for linha in linhas:
+        detalhes = linha.strip().split(',')
+        contato = detalhes[0]
+        telefone = detalhes[1]
+        email = detalhes[2]
+        endereco = detalhes[3]
+        incluir_editar_contatos(contato,telefone,email,endereco)
+    
+
 while True:
     print("~~" * 20)
     print("MENU ALPHA")
     print("~~" * 20)
     print("Para adicionar/editar um contato digite 0\nPara buscar um contato digite 1")
     print("Para exibir todos os contatos digite 2\nPara excluir um contato digite 3")
+    print("Para exportar os arquivos em CSV digite 4")
     print("Para sair digite 9")
     resposta = int(input(""))
     if resposta in [0]:
@@ -80,8 +99,15 @@ while True:
                 contato = input('Qual contato deverá ser deletado: ')
                 deletar_contato(contato)
                 break
-            except:
+            except KeyError:
                 print("contato inválido")
+    if resposta in [4]:
+        exportar_contatos()
+
     if resposta in [9]:
         break
+    elif resposta not in [0,1,2,3,4,9]:
+        print("~~" * 20)
+        print("Opção inválida")
 print("FIM")
+teste.close()
