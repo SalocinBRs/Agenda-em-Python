@@ -24,6 +24,7 @@ def incluir_editar_contatos(contato, telefone, email, endereco):
     "email": email,
     "endereço": endereco
     }
+    exportar_contatos()
     print('-' * 30)
     print(contato)
     print('Telefone: ',AGENDA[contato]["telefone"])
@@ -45,7 +46,7 @@ def buscar_contato():
 
 def exportar_contatos():
     try:
-        with open('contatos.csv', 'w') as arquivos:
+        with open('contatos.csv', 'w', encoding="utf-8") as arquivos:
             for contato in AGENDA:
                 telefone = AGENDA[contato]['telefone']
                 email = AGENDA[contato]['email']
@@ -55,7 +56,7 @@ def exportar_contatos():
         print("nao foi")
         print(error)
 
-with open('contatos.csv') as teste:
+with open('contatos.csv', encoding="utf-8") as teste:
     linhas = teste.readlines()
     for linha in linhas:
         detalhes = linha.strip().split(',')
@@ -63,8 +64,11 @@ with open('contatos.csv') as teste:
         telefone = detalhes[1]
         email = detalhes[2]
         endereco = detalhes[3]
-        incluir_editar_contatos(contato,telefone,email,endereco)
-    
+        AGENDA[contato] = {
+    "telefone": telefone,
+    "email": email,
+    "endereço": endereco
+    }
 
 while True:
     print("~~" * 20)
