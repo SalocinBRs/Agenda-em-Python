@@ -1,2 +1,2 @@
-# Python Proficional 1
- vamo ver né
+# Agenda em Python
+Uma agenda em Pytohn
