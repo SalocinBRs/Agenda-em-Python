@@ -1,8 +1,9 @@
 AGENDA = {}
 
 
-def deletar_contato(contato):
-    del AGENDA[contato]
+def deletar_contato(perfil):
+    del AGENDA[perfil]
+    print(f"{perfil} deletado com Sucesso")
 
 
 def mostrar_contatos(agenda):
@@ -18,18 +19,28 @@ def mostrar_contatos(agenda):
         print("A lista está vazia")
 
 
-def incluir_editar_contatos(contato, telefone, email, endereco):
-    AGENDA[contato] = {
-    "telefone": telefone,
-    "email": email,
-    "endereço": endereco
+def editar_contatos(a, b, c, d):
+    AGENDA[a] = {
+    "telefone": b,
+    "email": c,
+    "endereço": d
     }
     exportar_contatos()
     print('-' * 30)
     print(contato)
-    print('Telefone: ',AGENDA[contato]["telefone"])
-    print('Email: ',AGENDA[contato]["email"])
-    print('Endereço: ',AGENDA[contato]["endereço"])
+    print("Editado com sucesso")
+
+
+def incluir_contatos(a, b, c, d):
+    AGENDA[a] = {
+    "telefone": b,
+    "email": c,
+    "endereço": d
+    }
+    exportar_contatos()
+    print('-' * 30)
+    print(contato)
+    print("Incluido com sucesso")
 
 
 def buscar_contato():
@@ -47,14 +58,14 @@ def buscar_contato():
 def exportar_contatos():
     try:
         with open('contatos.csv', 'w', encoding="utf-8") as arquivos:
-            for contato in AGENDA:
-                telefone = AGENDA[contato]['telefone']
-                email = AGENDA[contato]['email']
-                endereco = AGENDA[contato]['endereço']
-                arquivos.write(f"{contato},{telefone},{email},{endereco}\n")
-    except Exception as error:
-        print("nao foi")
-        print(error)
+            for nome in AGENDA:
+                tel = AGENDA[nome]['telefone']
+                Email = AGENDA[nome]['email']
+                local = AGENDA[nome]['endereço']
+                arquivos.write(f"{nome},{tel},{Email},{local}\n")
+    except FileNotFoundError:
+        print("Arquivo não encontrado")
+
 
 with open('contatos.csv', encoding="utf-8") as teste:
     linhas = teste.readlines()
@@ -74,44 +85,59 @@ while True:
     print("~~" * 20)
     print("MENU ALPHA")
     print("~~" * 20)
-    print("Para adicionar/editar um contato digite 0\nPara buscar um contato digite 1")
-    print("Para exibir todos os contatos digite 2\nPara excluir um contato digite 3")
-    print("Para exportar os arquivos em CSV digite 4")
-    print("Para sair digite 9")
+    print("0 - Para adicionar um contato \n1 - Para buscar um contato")
+    print("2 - Para exibir todos os contatos \n3 - Para excluir um contato ")
+    print("4 - Para exportar os arquivos em CSV\n5 - Para editar contatos ")
+    print("9 - Para sair")
     resposta = int(input(""))
-    if resposta in [0]:
-        while True:
-            try:
-                contato = input("Qual o nome: ")
-                telefone = int(input("Qual o numero: "))
-                email = input("Qual o email: ")
-                endereco = input("Qual o endereço: ")
-                incluir_editar_contatos(contato, telefone, email, endereco)
-                break
-            except ValueError:
-                print("Apenas numeros são aceitos no telefone")
+    try:
+        if resposta in [0]:
+            while True:
+                try:
+                    contato = input("Qual o nome: ")
+                    telefone = int(input("Qual o numero: "))
+                    email = input("Qual o email: ")
+                    endereco = input("Qual o endereço: ")
+                    incluir_contatos(contato, telefone, email, endereco)
+                    break
+                except ValueError:
+                    print("Apenas numeros são aceitos no telefone")
 
-    if resposta in [1]:
-        buscar_contato()
+        if resposta in [1]:
+            buscar_contato()
 
-    if resposta in [2]:
-        mostrar_contatos(AGENDA)
+        if resposta in [2]:
+            mostrar_contatos(AGENDA)
 
-    if resposta in [3]:
-        while True:
-            try:
-                contato = input('Qual contato deverá ser deletado: ')
-                deletar_contato(contato)
-                break
-            except KeyError:
-                print("contato inválido")
-    if resposta in [4]:
-        exportar_contatos()
+        if resposta in [3]:
+            while True:
+                try:
+                    contato = input('Qual contato deverá ser deletado: ')
+                    deletar_contato(contato)
+                    break
+                except KeyError:
+                    print("contato inválido")
+        if resposta in [4]:
+            exportar_contatos()
 
-    if resposta in [9]:
-        break
-    elif resposta not in [0,1,2,3,4,9]:
-        print("~~" * 20)
-        print("Opção inválida")
+        if resposta in [5]:
+            while True:
+                try:
+                    contato = input("Qual o nome: ")
+                    telefone = int(input("Qual o numero: "))
+                    email = input("Qual o email: ")
+                    endereco = input("Qual o endereço: ")
+                    editar_contatos(contato, telefone, email, endereco)
+                    break
+                except ValueError:
+                    print("Apenas numeros são aceitos no telefone")
+
+        if resposta in [9]:
+            break
+        elif resposta not in [0,1,2,3,4,5,9]:
+            print("~~" * 20)
+            print("Opção inválida")
+    except KeyError:
+        print("tente novamente")
+
 print("FIM")
-teste.close()
