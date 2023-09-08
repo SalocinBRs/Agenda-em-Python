@@ -123,14 +123,18 @@ while True:
         if resposta in [5]:
             while True:
                 try:
-                    contato = input("Qual o nome: ")
-                    telefone = int(input("Qual o numero: "))
-                    email = input("Qual o email: ")
-                    endereco = input("Qual o endereço: ")
-                    editar_contatos(contato, telefone, email, endereco)
-                    break
+                    contato = input("qual contato deve ser editado: ")
+                    if contato in AGENDA:
+                        telefone = int(input("Qual o numero: "))
+                        email = input("Qual o email: ")
+                        endereco = input("Qual o endereço: ")
+                        editar_contatos(contato, telefone, email, endereco)
+                        break
+                    else:
+                        print("contato não encontrado")
                 except ValueError:
                     print("Apenas numeros são aceitos no telefone")
+                    
 
         if resposta in [9]:
             break
